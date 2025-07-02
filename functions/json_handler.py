@@ -1,20 +1,23 @@
 import json
 import os
 
-def json_get_file_data(path: str = ""):
+def json_file_exists(path: str) -> bool:
+    return os.path.exists(path)
+
+def json_get_file_data(path: str = "") -> dict:
     if (not os.path.exists(path)):
-        return
+        return {}
     with open(path, 'r') as file:
         try:
             return json.load(file)
         except Exception as error:
             print(f"An Error accoured while loading {path}: {error}")
-            return {"ERROR"}
+            return {"error": error}
 
 def json_save(path: str, data: dict):
     with open(path, "w") as file:
         try:
-            json.dump(data, file)
+            json.dump(data, file, indent = 4)
         except Exception as error:
             print(f"An Error accoured while loading {path}: {error}")
             return
